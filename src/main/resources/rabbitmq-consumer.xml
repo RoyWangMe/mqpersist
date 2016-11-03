@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/rabbit
+      http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd">
+
+
+    <rabbit:connection-factory id="connectionFactory" username="guest" password="guest"
+                               host="localhost"
+                               port="5672"
+                               virtual-host="/"/>
+
+    <rabbit:queue id="com.mj.test" name="com.mj.test" durable="true" auto-delete="false" exclusive="false"/>
+
+    <rabbit:queue id="com.mj.test.nodurable" name="com.mj.test.nodurable" durable="false" auto-delete="false" exclusive="false"/>
+
+    <bean id="messageReceiver" class="com.netease.mq.MessageReceiver"/>
+
+    <bean id="messageReceiverNoDurable" class="com.netease.mq.MessageReceiverNoDurable"/>
+
+    <rabbit:listener-container connection-factory="connectionFactory">
+        <rabbit:listener queues="com.mj.test" ref="messageReceiver"/>
+    </rabbit:listener-container>
+
+    <rabbit:listener-container connection-factory="connectionFactory">
+        <rabbit:listener queues="com.mj.test.nodurable" ref="messageReceiverNoDurable"/>
+    </rabbit:listener-container>
+
+</beans>
