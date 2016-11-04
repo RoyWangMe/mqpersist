@@ -19,23 +19,25 @@ public class MessageSenderTest {
 
     @Test
     public void testMessageSend() throws InterruptedException {
-        for(int i = 0 ; i < 10000 ; i++){
-            MessageSender messageSender = (MessageSender)context.getBean("messageSender");
-            byte[] bigData = new byte[1000000];
-            messageSender.sendMessage(bigData);
-            System.out.println("index :" + (i + 1));
-            Thread.sleep(100l);
+        for(int index = 0 ; index < 1000 ; index ++ ){
+            for(int i = 0 ; i < 10000 ; i++){
+                MessageSender messageSender = (MessageSender)context.getBean("messageSender");
+                byte[] bigData = new byte[1000];
+                messageSender.sendMessage(bigData);
+            }
+            Thread.sleep(10l);
         }
     }
 
     @Test
     public void testMessageSendNoDurable() throws InterruptedException {
-        for(int i = 0 ; i < 10000 ; i++){
-            MessageSender messageSender = (MessageSender)context.getBean("messageSender");
-            byte[] bigData = new byte[1000000];
-            messageSender.sendMessageNoDurable(bigData);
-            System.out.println("index :" + (i + 1));
-            Thread.sleep(100l);
+        for(int index = 0 ; index < 1000 ; index ++ ) {
+            for (int i = 0; i < 10000; i++) {
+                MessageSender messageSender = (MessageSender) context.getBean("messageSender");
+                byte[] bigData = new byte[1000];
+                messageSender.sendMessageNoDurable(bigData);
+            }
+            Thread.sleep(10l);
         }
     }
 

@@ -16,7 +16,7 @@
             http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 
     <import resource="rabbitmq-productor.xml"/>
-    <!--<import resource="rabbitmq-consumer.xml"/>-->
+    <import resource="rabbitmq-consumer.xml"/>
     <!-- 使能AOP-->
     <aop:aspectj-autoproxy/>
     <!-- 自动装载bean使能-->
