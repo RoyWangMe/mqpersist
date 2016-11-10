@@ -15,17 +15,26 @@
                                port="5672"
                                virtual-host="/"/>
 
-    <rabbit:queue id="com.mj.test" name="com.mj.test" durable="true" auto-delete="false" exclusive="false"/>
+    <!--<bean id="connectionFactory"-->
+          <!--class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">-->
+        <!--<constructor-arg value="localhost"/>-->
+        <!--<property name="username" value="guest"/>-->
+        <!--<property name="password" value="guest"/>-->
+        <!--<property name="virtualHost" value="/"/>-->
+        <!--<property name="requestedHeartBeat" value="60"/>-->
+    <!--</bean>-->
+
+    <!--<rabbit:queue id="com.mj.test" name="com.mj.test" durable="true" auto-delete="false" exclusive="false"/>-->
 
     <rabbit:queue id="com.mj.test.nodurable" name="com.mj.test.nodurable" durable="false" auto-delete="false" exclusive="false"/>
 
-    <bean id="messageReceiver" class="com.netease.mq.MessageReceiver"/>
+    <!--<bean id="messageReceiver" class="com.netease.mq.MessageReceiver"/>-->
 
     <bean id="messageReceiverNoDurable" class="com.netease.mq.MessageReceiverNoDurable"/>
 
-    <rabbit:listener-container connection-factory="connectionFactory">
-        <rabbit:listener queues="com.mj.test" ref="messageReceiver"/>
-    </rabbit:listener-container>
+    <!--<rabbit:listener-container connection-factory="connectionFactory">-->
+        <!--<rabbit:listener queues="com.mj.test" ref="messageReceiver"/>-->
+    <!--</rabbit:listener-container>-->
 
     <rabbit:listener-container connection-factory="connectionFactory">
         <rabbit:listener queues="com.mj.test.nodurable" ref="messageReceiverNoDurable"/>

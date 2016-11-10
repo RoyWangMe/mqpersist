@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 /**
  * Created by hzwangyujie on 2016/11/1.
  */
-@Service
 public class MessageSender {
 
     @Resource(name = "myAmqpTemplate")
