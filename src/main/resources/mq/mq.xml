@@ -8,19 +8,19 @@
     <rabbit:connection-factory id="connectionFactory" username="guest" password="guest"
                                host="localhost"
                                port="5672"
-                               virtual-host="/"/>
+                               virtual-host="/" />
 
     <rabbit:admin connection-factory="connectionFactory"/>
 
     <!--定义queue-->
-    <rabbit:queue id="com.mj.test.nodurable" name="com.mj.test.nodurable" durable="false" auto-delete="false" exclusive="false"/>
+    <rabbit:queue id="com.mj.test.nodurable.new" name="com.mj.test.nodurable.new" durable="false" auto-delete="false" exclusive="false"/>
     <!-- 定义direct exchange，绑定com.mj.test queue -->
-    <rabbit:direct-exchange name="myChangeNoDurable" durable="false" auto-delete="false">
+    <rabbit:direct-exchange name="myChangeNoDurableNew" durable="false" auto-delete="false">
         <rabbit:bindings>
-            <rabbit:binding queue="com.mj.test.nodurable" key="hello_test"></rabbit:binding>
+            <rabbit:binding queue="com.mj.test.nodurable.new" key="hello_test_new"></rabbit:binding>
         </rabbit:bindings>
     </rabbit:direct-exchange>
 
-    <rabbit:template id="rabbitTemplate" connection-factory="connectionFactory" exchange="myChangeNoDurable" />
+    <rabbit:template id="rabbitTemplate" connection-factory="connectionFactory" exchange="myChangeNoDurableNew" />
 
 </beans>

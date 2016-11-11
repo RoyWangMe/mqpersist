@@ -18,7 +18,8 @@
         </property>
     </bean>
 
-    <import resource="rabbitmq-consumer.xml"/>
+    <!--<import resource="rabbitmq-consumer.xml"/>-->
+    <import resource="rabbitmq-productor.xml"/>
     <import resource="dao-config.xml"/>
     <import resource="mq/mq.xml"/>
 

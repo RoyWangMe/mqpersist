@@ -3,11 +3,15 @@
 <mapper namespace="com.netease.mq.message.dao.MessageMapper">
 
     <insert id="saveRMQMessage">
-        insert into tb_message (content, client, exchange, routing_key) values (#{content}, #{client}, #{exchange}, #{routingKey})
+        insert into tb_message (content, client, exchange, routing_key, msg_no) values (#{content}, #{client}, #{exchange}, #{routingKey}, #{msgNo})
     </insert>
 
     <select id="getMessageByClient" resultType="rmqMessage">
         select id, content, client, exchange, routing_key from tb_message where client = #{client}
     </select>
+    
+    <delete id="deleteRMQMessage">
+        delete from tb_message where msg_no = #{msgNo}
+    </delete>
 
 </mapper>

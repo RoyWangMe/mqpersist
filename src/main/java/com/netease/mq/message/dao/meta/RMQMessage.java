@@ -17,6 +17,15 @@ public class RMQMessage {
 
     private String routingKey;
 
+    private String msgNo;
+
+    public RMQMessage(String msgNo) {
+        this.msgNo = msgNo;
+    }
+
+    public RMQMessage() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -55,5 +64,25 @@ public class RMQMessage {
 
     public void setRoutingKey(String routingKey) {
         this.routingKey = routingKey;
+    }
+
+    public String getMsgNo() {
+        return msgNo;
+    }
+
+    public void setMsgNo(String msgNo) {
+        this.msgNo = msgNo;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null || obj instanceof RMQMessage){
+            return false;
+        }
+        RMQMessage other = (RMQMessage)obj;
+        if(other.getMsgNo() == null || this.getMsgNo() == null || !other.getMsgNo().equals(this.getMsgNo())){
+            return false;
+        }
+        return true;
     }
 }

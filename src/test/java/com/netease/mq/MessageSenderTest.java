@@ -22,25 +22,24 @@ public class MessageSenderTest {
 
     @Test
     public void testMessageSend() throws InterruptedException {
-//        for(int index = 0 ; index < 1000 ; index ++ ){
-//            for(int i = 0 ; i < 10000 ; i++){
-//                MessageSender messageSender = (MessageSender)context.getBean("messageSender");
-//                byte[] bigData = new byte[1000];
-//                messageSender.sendMessage(bigData);
-//            }
-//            Thread.sleep(10l);
-//        }
+        for(int index = 0 ; index < 1000 ; index ++ ){
+            for(int i = 0 ; i < 10000 ; i++){
+                MessageSender messageSender = (MessageSender)context.getBean("newMessageSender");
+                byte[] bigData = new byte[1000];
+                messageSender.sendMessageNoDurable(bigData);
+            }
+        }
         System.out.println("mq start");
-        Thread.sleep(1000000000l);
     }
 
     @Test
     public void testMessageSendNoDurable() throws InterruptedException {
-        HSender messageSender = (HSender) context.getBean("defaultSenderImpl");
-        for(int index = 0 ; index < 1000 ; index ++ ) {
-            String message = "test" + index;
-            messageSender.send(message, "myChangeNoDurable", "hello_test");
-            Thread.sleep(3000l);
+        for(int index = 0 ; index < 1000 ; index ++ ){
+            for(int i = 0 ; i < 10000 ; i++){
+                HSender messageSender = (HSender) context.getBean("defaultSenderImpl");
+                byte[] bigData = new byte[1000];
+                messageSender.send(new String(bigData), "myChangeNoDurableNew", "hello_test_new");
+            }
         }
     }
 
@@ -53,6 +52,12 @@ public class MessageSenderTest {
         message.setContent("22");
         message.setClient("11");
         rmqMessageMapper.saveRMQMessage(message);
+    }
+
+    @Test
+    public void testDBDeleteMessage(){
+        MessageMapper rmqMessageMapper = (MessageMapper)context.getBean("messageMapper");
+        rmqMessageMapper.deleteRMQMessage("201611111603152");
     }
 
     @Test

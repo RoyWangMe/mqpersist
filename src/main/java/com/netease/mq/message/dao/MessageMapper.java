@@ -28,4 +28,12 @@ public interface MessageMapper {
      */
     List<RMQMessage> getMessageByClient(@Param("client") String client);
 
+    /**
+     * 根据消息no删除消息
+     *
+     * @param messageNo
+     * @return
+     */
+    int deleteRMQMessage(@Param("msgNo") String messageNo);
+
 }
