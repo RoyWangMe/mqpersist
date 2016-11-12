@@ -11,6 +11,9 @@ import java.net.UnknownHostException;
  */
 public class HostUtils {
 
+    public static final String MAC_ADDR = getMacAddr();
+
+    //TODO 按需替换
     public static String getMacAddr() {
         // 获得ip
         NetworkInterface netInterface = null;

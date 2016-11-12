@@ -1,11 +1,14 @@
 package com.netease.mq.message.dao.meta;
 
+import java.util.concurrent.Delayed;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by hzwangyujie on 2016/11/10.
  *
  * rmq message meta
  */
-public class RMQMessage {
+public class RMQMessage implements Delayed {
 
     private Long id;
 
@@ -18,6 +21,8 @@ public class RMQMessage {
     private String routingKey;
 
     private String msgNo;
+
+    private long expireTime;
 
     public RMQMessage(String msgNo) {
         this.msgNo = msgNo;
@@ -74,6 +79,14 @@ public class RMQMessage {
         this.msgNo = msgNo;
     }
 
+    public long getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(long expireTime) {
+        this.expireTime = expireTime;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == null || obj instanceof RMQMessage){
@@ -84,5 +97,17 @@ public class RMQMessage {
             return false;
         }
         return true;
+    }
+
+    public long getDelay(TimeUnit unit) {
+        return this.getExpireTime() - System.currentTimeMillis();
+    }
+
+    public int compareTo(Delayed o) {
+        if(o == null || ! (o instanceof RMQMessage)) return 1;
+        if(o == this) return 0;
+        RMQMessage other = (RMQMessage)o;
+
+        return (int)(this.getExpireTime() - other.getExpireTime());
     }
 }

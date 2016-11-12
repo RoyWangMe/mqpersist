@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.DelayQueue;
 
 /**
  * Created by hzwangyujie on 2016/11/10.
@@ -31,7 +33,7 @@ public class DefaultSenderImpl implements HSender {
     @Autowired
     private NumGenerator numGenerator;
 
-    public static List<RMQMessage> innerQueue = new ArrayList<RMQMessage>();
+    public static BlockingQueue<RMQMessage> innerQueue = new DelayQueue<RMQMessage>();
 
     private boolean heartBeatOpen = false;
 
@@ -40,7 +42,6 @@ public class DefaultSenderImpl implements HSender {
 
         innerQueue.add(this.buildRMQMessage(message, messageNo, exchange, routingKey));
 
-        //  rmqMessageMapper.saveRMQMessage();
         messageSender.send(exchange, routingKey, this.buildRMQMessageDto(message, messageNo));
         if(!heartBeatOpen){
             // 开始发送就开始heartBeat 线程
@@ -61,11 +62,13 @@ public class DefaultSenderImpl implements HSender {
     private RMQMessage buildRMQMessage(String content, String msgNo, String exchange, String routingKey){
         RMQMessage rmqMessage = new RMQMessage();
 
-        rmqMessage.setClient(HostUtils.getMacAddr());
+        rmqMessage.setClient(HostUtils.MAC_ADDR);
         rmqMessage.setContent(content);
         rmqMessage.setExchange(exchange);
         rmqMessage.setRoutingKey(routingKey);
         rmqMessage.setMsgNo(msgNo);
+        // 2s 不进行callback则进行持久化
+        rmqMessage.setExpireTime(System.currentTimeMillis() + 2000l);
 
         return rmqMessage;
     }

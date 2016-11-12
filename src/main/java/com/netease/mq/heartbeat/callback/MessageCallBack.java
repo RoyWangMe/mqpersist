@@ -22,8 +22,10 @@ public class MessageCallBack implements RabbitTemplate.ConfirmCallback {
         MessageCorrelationData messageCorrelationData = (MessageCorrelationData)correlationData;
         if(ack){
             String msgId = messageCorrelationData.getId();
-            DefaultSenderImpl.innerQueue.remove(new RMQMessage(msgId));
-            //messageMapper.deleteRMQMessage(msgId);
+            // 如果再内存queue里面还没被持久化，则直接内存删除，否则去db删除
+            if(DefaultSenderImpl.innerQueue.remove(new RMQMessage(msgId))){
+                messageMapper.deleteRMQMessage(msgId);
+            }
             LogUtils.LOGGER.info("ack delete persist msg {}", msgId);
         }else{
             LogUtils.LOGGER.info("message call back ack false");
