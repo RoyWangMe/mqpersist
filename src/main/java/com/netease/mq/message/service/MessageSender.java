@@ -32,7 +32,7 @@ public class MessageSender extends BaseMessageSender implements InitializingBean
     private ExecutorService threadPool = Executors.newFixedThreadPool(100);
 
     public void afterPropertiesSet() throws Exception {
-        //rabbitTemplate.setConfirmCallback(messageCallBack);
+        rabbitTemplate.setConfirmCallback(messageCallBack);
     }
 
     public void sendAsync(final String exchange, final String routingKey, final RMQMessageDto rmqMessageDto){

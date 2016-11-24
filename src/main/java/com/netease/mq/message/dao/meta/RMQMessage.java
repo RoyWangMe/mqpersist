@@ -89,7 +89,7 @@ public class RMQMessage implements Delayed {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == null || obj instanceof RMQMessage){
+        if(obj == null || !(obj instanceof RMQMessage)){
             return false;
         }
         RMQMessage other = (RMQMessage)obj;

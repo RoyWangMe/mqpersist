@@ -5,6 +5,7 @@ import com.netease.mq.message.dao.MessageMapper;
 import com.netease.mq.message.dao.meta.RMQMessage;
 import com.netease.mq.message.dto.RMQMessageDto;
 import com.netease.mq.message.generator.NumGenerator;
+import com.netease.mq.message.service.DelayQueueListener;
 import com.netease.mq.message.service.MessageSender;
 import com.netease.mq.utils.HostUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,12 @@ public class DefaultSenderImpl implements HSender {
 
     public static BlockingQueue<RMQMessage> innerQueue = new DelayQueue<RMQMessage>();
 
-    private boolean heartBeatOpen = false;
+    @Autowired
+    private DelayQueueListener delayQueueListener;
+
+    private volatile boolean heartBeatOpen = false;
+
+    private volatile boolean persistListenOpen = false;
 
     public void send(String message, String exchange, String routingKey) {
         String messageNo = numGenerator.generate();
@@ -47,6 +53,9 @@ public class DefaultSenderImpl implements HSender {
             // 开始发送就开始heartBeat 线程
             heartBeatHandler.sendHeartBeat();
             heartBeatOpen = true;
+        }
+        if(!persistListenOpen){
+            delayQueueListener.persistMessage();
         }
     }
 

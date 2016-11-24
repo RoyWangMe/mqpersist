@@ -17,12 +17,29 @@
     <!-- 启用annotation的事务支持 -->
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/mqpersist?useUnicode=true&amp;characoding=UTF-8"/>
-        <property name="username" value="root"/>
-        <property name="password" value=""/>
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="url" value="${ddb.url}"></property>
+        <property name="username" value="${ddb.username}"></property>
+        <property name="password" value="${ddb.password}"></property>
+        <property name="maxActive" value="${ddb.maxActive}" />
+        <property name="initialSize" value="${ddb.initialSize}" />
+        <property name="minIdle" value="${ddb.minIdle}" />
+        <property name="maxWait" value="${ddb.maxWait}" />
+        <property name="timeBetweenEvictionRunsMillis" value="${ddb.timeBetweenEvictionRunsMillis}" />
+        <property name="minEvictableIdleTimeMillis" value="${ddb.minEvictableIdleTimeMillis}" />
+        <property name="validationQuery" value="${ddb.validationQuery}" />
+        <property name="testWhileIdle" value="${ddb.testWhileIdle}" />
+        <property name="testOnBorrow" value="${ddb.testOnBorrow}" />
+        <property name="testOnReturn" value="${ddb.testOnReturn}" />
+        <property name="filters" value="${ddb.filters}" />
     </bean>
+
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+        <!--<property name="driverClassName" value="com.mysql.jdbc.Driver"/>-->
+        <!--<property name="url" value="jdbc:mysql://localhost:3306/mqpersist?useUnicode=true&amp;characoding=UTF-8"/>-->
+        <!--<property name="username" value="root"/>-->
+        <!--<property name="password" value=""/>-->
+    <!--</bean>-->
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />

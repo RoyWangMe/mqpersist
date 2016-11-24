@@ -8,7 +8,7 @@
     <rabbit:connection-factory id="connectionFactory" username="guest" password="guest"
                                host="localhost"
                                port="5672"
-                               virtual-host="/" />
+                               virtual-host="/" publisher-confirms="true"/>
 
     <rabbit:admin connection-factory="connectionFactory"/>
 

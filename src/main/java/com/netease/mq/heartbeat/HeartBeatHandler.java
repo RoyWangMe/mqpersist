@@ -65,6 +65,7 @@ public class HeartBeatHandler {
      */
     public void sendHeartBeat(){
         // 线程钩子，应用停止需要停止卸载
+        // TODO
         singleThreadPool.submit(new RequestHeartBeatThread());
     }
 
