@@ -21,23 +21,13 @@ public class MessageSenderTest {
     }
 
     @Test
-    public void testMessageSend() throws InterruptedException {
-        for(int index = 0 ; index < 1000 ; index ++ ){
-            for(int i = 0 ; i < 10000 ; i++){
-                MessageSender messageSender = (MessageSender)context.getBean("newMessageSender");
-                byte[] bigData = new byte[1000];
-                messageSender.sendMessageNoDurable(bigData);
-            }
-        }
-        System.out.println("mq start");
-    }
-
-    @Test
     public void testMessageSendNoDurable() throws InterruptedException {
+        HSender messageSender = (HSender) context.getBean("defaultSenderImpl");
+        int count = 1;
         for(int index = 0 ; index < 1000 ; index ++ ){
-            for(int i = 0 ; i < 10000 ; i++){
-                HSender messageSender = (HSender) context.getBean("defaultSenderImpl");
-                byte[] bigData = new byte[1000];
+            for(int i = 0 ; i < 1000 ; i++){
+                byte[] bigData = new byte[10];
+                System.out.println("send msg = " + count++);
                 messageSender.send(new String(bigData), "myChangeNoDurableNew", "hello_test_new");
             }
         }

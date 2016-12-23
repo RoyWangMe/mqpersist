@@ -6,7 +6,7 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <rabbit:connection-factory id="connectionFactory" username="guest" password="guest"
-                               host="localhost"
+                               host="127.0.0.1"
                                port="5672"
                                virtual-host="/" publisher-confirms="true"/>
 
@@ -21,6 +21,13 @@
         </rabbit:bindings>
     </rabbit:direct-exchange>
 
+    <bean id="messageReceiverNoDurable" class="com.netease.mq.MessageReceiverNoDurable"/>
+
     <rabbit:template id="rabbitTemplate" connection-factory="connectionFactory" exchange="myChangeNoDurableNew" />
+
+    <rabbit:listener-container connection-factory="connectionFactory">
+        <rabbit:listener queues="com.mj.test.nodurable.new" ref="messageReceiverNoDurable"/>
+    </rabbit:listener-container>
+
 
 </beans>

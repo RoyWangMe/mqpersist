@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.DelayQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by hzwangyujie on 2016/11/10.
@@ -39,6 +41,8 @@ public class DefaultSenderImpl implements HSender {
     @Autowired
     private DelayQueueListener delayQueueListener;
 
+    private ExecutorService singleThreadPool = Executors.newSingleThreadExecutor();
+
     private volatile boolean heartBeatOpen = false;
 
     private volatile boolean persistListenOpen = false;
@@ -56,6 +60,7 @@ public class DefaultSenderImpl implements HSender {
         }
         if(!persistListenOpen){
             delayQueueListener.persistMessage();
+            persistListenOpen = true;
         }
     }
 
